@@ -1,0 +1,28 @@
+debug: true
+
+server: 
+  port: 8081
+  servlet: 
+    context-path: /
+
+logging:
+  level:
+    ROOT: INFO
+    com.kubewarrior: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework: DEBUG
+
+spring:
+  # data:
+  #   rest:
+  #     defaultMediaType: "application/json"
+  jpa:
+    hibernate:
+# marked as none so that schema.sql can create the schema for now
+      ddl-auto: none
+#   security:
+#     oauth2:
+#       resourceserver:
+#         jwt:
+#           issuer-uri: http://localhost:9080/auth/realms/micro-auth
+#           jwk-set-uri: http://localhost:9080/auth/realms/micro-auth/protocol/openid-connect/certs
