@@ -32,8 +32,8 @@ public class CheckoutController {
         //call Store API
         try {
             product = (Product) restTemplate.getForObject(url, Product.class);
-        } catch (RestClientResponseException e) {
-            return new ResponseEntity<>("Could not validate available stock.", HttpStatus.resolve(e.getRawStatusCode()));
+        } catch (Exception e) {
+            return new ResponseEntity<>("Could not connect with Stock service. Pls contact administrator", HttpStatus.EXPECTATION_FAILED);
         }
         System.out.println("Stock count: " + product.getStockCount());
         if (product.getStockCount() > 0) {
