@@ -1,8 +1,8 @@
 debug: true
 
-server: 
+server:
   port: 9090
-  servlet: 
+  servlet:
     context-path: /
 
 logging:
@@ -16,10 +16,15 @@ spring:
   # data:
   #   rest:
   #     defaultMediaType: "application/json"
+  datasource:
+    url: jdbc:mariadb://localhost:3306/checkout
+    username: root
+    password:
+    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-# marked as none so that schema.sql can create the schema for now
-      ddl-auto: none
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.MariaDBDialect
 #   security:
 #     oauth2:
 #       resourceserver:

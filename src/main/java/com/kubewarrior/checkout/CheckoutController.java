@@ -1,5 +1,6 @@
 package com.kubewarrior.checkout;
 
+import com.kubewarrior.checkout.domain.Product;
 import com.kubewarrior.checkout.domain.Userorder;
 import com.kubewarrior.checkout.repository.UserorderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -21,17 +23,30 @@ public class CheckoutController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @PostMapping("/checkoutOrder")
-    public ResponseEntity<Userorder> checkoutOrder(@RequestBody Userorder userorder) {
+    @PostMapping(path = "/checkoutOrder", consumes = "application/json")
+    public ResponseEntity<String> checkoutOrder(@RequestBody Userorder userorder) {
 
-        return new ResponseEntity<>(repository.save(userorder), HttpStatus.OK);
+        Product product = null;
+        String response;
+        String url = "http://localhost:8081/products/" + userorder.getProductId();
+        //call Store API
+        try {
+            product = (Product) restTemplate.getForObject(url, Product.class);
+        } catch (RestClientResponseException e) {
+            return new ResponseEntity<>("Could not validate available stock.", HttpStatus.resolve(e.getRawStatusCode()));
+        }
+        System.out.println("Stock count: " + product.getStockCount());
+        if (product.getStockCount() > 0) {
+            repository.save(userorder);
+            return new ResponseEntity<>("Order checkout done!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Order could not be checked out due to insufficient stock.", HttpStatus.NOT_FOUND);
 
     }
 
     @GetMapping("/orders")
     public List<Userorder> checkoutOrder() {
-        //call Store API
-        System.out.println(restTemplate.getForObject("http://localhost:8081/products/1", String.class));
+
         return (List<Userorder>) repository.findAll();
     }
 }

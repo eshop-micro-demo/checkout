@@ -49,7 +49,7 @@
 //         source.registerCorsConfiguration("/**", configuration);
 //         return source;
 //     }
-    
+
 //     @Bean
 //     public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 //         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));

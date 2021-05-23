@@ -11,7 +11,7 @@ public class Userorder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     private String userName;
     private long productId;
     private int quantity;
