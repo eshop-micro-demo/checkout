@@ -22,10 +22,11 @@ public class CheckoutController {
     private RestTemplate restTemplate;
 
     @PostMapping(path = "/checkoutOrder", consumes = "application/json")
-    public ResponseEntity<String> checkoutOrder(@RequestBody Userorder userorder) {
+    public ResponseEntity<String> checkoutOrder(@RequestBody List<Userorder> orders) {
 
+    for (Userorder userorder : orders) {
         Product product = null;
-        String response;
+        // String response;
         String url = "http://localhost:8081/products/" + userorder.getProductId();
         //call Store API
         try {
@@ -36,9 +37,11 @@ public class CheckoutController {
         System.out.println("Stock count: " + product.getStockCount());
         if (product.getStockCount() > 0) {
             repository.save(userorder);
-            return new ResponseEntity<>("Order checkout done!", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Order could not be checked out due to insufficient stock.", HttpStatus.NOT_FOUND);
+    }
+    // How to report if some products could not be placed in the order due to zero stock!?
+    return new ResponseEntity<>("Order checkout done!", HttpStatus.OK);
+    // return new ResponseEntity<>("Order could not be checked out due to insufficient stock.", HttpStatus.NOT_FOUND);
 
     }
 
