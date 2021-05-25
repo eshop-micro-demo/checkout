@@ -16,6 +16,13 @@ spring:
   # data:
   #   rest:
   #     defaultMediaType: "application/json"
+  application:
+    name: checkout
+  sleuth:
+    sampler:
+      percentage: 1
+    zipkin:
+      base-url: http://localhost:9411/
   datasource:
     url: jdbc:mariadb://localhost:3306/checkout
     username: root
