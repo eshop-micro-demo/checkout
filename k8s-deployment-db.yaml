@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-db
+  labels:
+    app: microshop
+    component: checkout-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microshop
+      component: checkout-db
+  template:
+    metadata:
+      labels:
+        app: microshop
+        component: checkout-db
+    spec:
+      containers:
+      - name: checkout-mariadb
+        image: mariadb:10.5.9
+        ports:
+        - containerPort: 3306
+        env:
+          - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            value: "yes"
+          - name: MYSQL_DATABASE
+            value: "checkout"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-db
+  labels:
+    app: microshop
+    component: checkout-db
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: microshop
+    component: checkout-db

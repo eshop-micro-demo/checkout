@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+  labels:
+    app: microshop
+    component: checkout
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microshop
+      component: checkout
+  template:
+    metadata:
+      labels:
+        app: microshop
+        component: checkout
+    spec:
+      containers:
+      - name: checkout
+        image: quay.io/microshop/checkout:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: JAVA_OPTS
+          value: "-Dspring.profiles.active=prod"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout
+  labels:
+    app: microshop
+    component: checkout
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: microshop
+    component: checkout
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: checkout
+  annotations:
+spec:
+  rules:
+    - host: checkout.dh4r4pvj.ga
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: checkout
+                port:
+                  number: 8080

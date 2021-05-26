@@ -1,0 +1,7 @@
+logging:
+  level:
+    org.springframework: WARN
+
+spring:
+  datasource:
+    url: jdbc:mariadb://checkout-db:3306/checkout
