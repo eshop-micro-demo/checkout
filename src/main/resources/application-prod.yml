@@ -5,3 +5,9 @@ logging:
 spring:
   datasource:
     url: jdbc:mariadb://checkout-db:3306/checkout
+
+client:
+  url: http://dh4r4pvj.ga
+
+store:
+  url: http://store.dh4r4pvj.ga

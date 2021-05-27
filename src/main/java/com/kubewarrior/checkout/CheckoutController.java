@@ -4,6 +4,7 @@ import com.kubewarrior.checkout.domain.Product;
 import com.kubewarrior.checkout.domain.Userorder;
 import com.kubewarrior.checkout.repository.UserorderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, allowCredentials = "true")
+// @CrossOrigin(origins = "${client.url}", maxAge = 3600, allowCredentials = "true")
 public class CheckoutController {
 
+    @Value("${store.url}")
+    private String STORE_URL;
+    
     @Autowired
     private UserorderRepository repository;
     @Autowired
@@ -27,7 +31,7 @@ public class CheckoutController {
     for (Userorder userorder : orders) {
         Product product = null;
         // String response;
-        String url = "http://localhost:8081/products/" + userorder.getProductId();
+        String url = STORE_URL+"/products/" + userorder.getProductId();
         //call Store API
         try {
             product = (Product) restTemplate.getForObject(url, Product.class);
