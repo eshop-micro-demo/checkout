@@ -6,6 +6,7 @@ import com.kubewarrior.checkout.repository.UserorderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +21,8 @@ public class CheckoutController {
     private UserorderRepository repository;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
     @PostMapping(path = "/checkoutOrder", consumes = "application/json")
     public ResponseEntity<String> checkoutOrder(@RequestBody List<Userorder> orders) {
@@ -37,6 +40,8 @@ public class CheckoutController {
         System.out.println("Stock count: " + product.getStockCount());
         if (product.getStockCount() > 0) {
             repository.save(userorder);
+            //after saving send msg on kafka topic
+            kafkaTemplate.send("checout_topic", userorder);
         }
     }
     // How to report if some products could not be placed in the order due to zero stock!?

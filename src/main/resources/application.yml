@@ -32,6 +32,10 @@ spring:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.MariaDBDialect
+  kafka:
+    producer:
+      bootstrap-servers: localhost:29092
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 #   security:
 #     oauth2:
 #       resourceserver:
