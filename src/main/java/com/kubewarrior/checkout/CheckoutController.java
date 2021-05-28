@@ -41,7 +41,7 @@ public class CheckoutController {
         if (product.getStockCount() > 0) {
             repository.save(userorder);
             //after saving send msg on kafka topic
-            kafkaTemplate.send("checout_topic", userorder);
+            kafkaTemplate.send("checkout_topic_new", userorder);
         }
     }
     // How to report if some products could not be placed in the order due to zero stock!?
