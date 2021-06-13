@@ -5,6 +5,7 @@ logging:
 spring:
   datasource:
     url: jdbc:mariadb://checkout-db:3306/checkout
+    password: ${DB_ROOT_PASS}
 
 client:
   url: http://dh4r4pvj.ga
