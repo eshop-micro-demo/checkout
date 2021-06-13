@@ -40,13 +40,13 @@ spec:
             secretKeyRef:
               name: checkout-db-pass
               key: password
-          resources:
-            limits:
-              memory: 512Mi
-              cpu: 100m
-            requests:
-              memory: 256Mi
-              cpu: 30m
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: 100m
+          requests:
+            memory: 256Mi
+            cpu: 30m
 ---
 apiVersion: v1
 kind: Service
