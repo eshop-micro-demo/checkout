@@ -14,7 +14,7 @@ spring:
       bootstrap-servers: kafka.default:9092
 
 client:
-  url: http://dh4r4pvj.ga
+  url: https://www.dh4r4pvj.ga
 
 store:
-  url: http://store.dh4r4pvj.ga
+  url: https://store.dh4r4pvj.ga
