@@ -1,11 +1,16 @@
 logging:
   level:
-    org.springframework: WARN
+    ROOT: WARN
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.springframework.jdbc.datasource.init: DEBUG
 
 spring:
   datasource:
     url: jdbc:mariadb://checkout-db:3306/checkout
     password: ${DB_ROOT_PASS}
+    # Only for demo purpose... below setting will pickup schema.sql and data.sql and execute them
+    initialization-mode: always
   zipkin:
     base-url: http://zipkin.monitoring:9411/
   kafka:
